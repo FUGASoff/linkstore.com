@@ -7,27 +7,9 @@
  */
 class model_user extends model
 {
-    public function get_data()
-    {
-        return array(
-
-            array(
-                'Year' => '2012',
-                'Site' => 'http://DunkelBeer.ru',
-                'Description' => 'Промо-сайт'
-            )
-        );
-    }
     public function register_user($login, $email, $password)
     {
-        $mysqli = new mysqli("linkstore.com", "root", "2486", "linkstore");
-
-        /* проверка соединения */
-        if (mysqli_connect_errno()) {
-            printf("Не удалось подключиться: %s\n", mysqli_connect_error());
-            exit();
-        }
-        if(isset($_POST['login']) && isset($_POST['email']) && isset($_POST['password']))
+        if(isset($login) && isset($email) && isset($password))
         {
             $login = $mysqli->real_escape_string(htmlspecialchars($_POST['login']));
             $email = $mysqli->real_escape_string(htmlspecialchars($_POST['email']));
@@ -36,10 +18,54 @@ class model_user extends model
             {
                 if (($result = $mysqli->use_result())==0)
                 {
-                    $mysqli->real_query('INSERT INTO `user` (user_name, user_email, user_password) VALUES ('.$login.','.$email.','.$email.')');
+                    $mysqli->real_query('INSERT INTO `user` (user_name, user_email, user_password) VALUES ('.$login.','.$email.','.md5($password).')');
                 }
             }
 
         }
-}
+    }
+    public function login_user($login, $password)
+    {
+        if(isset($login) && isset($password))
+        {
+            $login = $mysqli->real_escape_string(htmlspecialchars($_POST['login']));
+            $password =$mysqli->real_escape_string(htmlspecialchars($_POST['password']));
+            $search_user = mysqli_result($mysqli->real_query("SELECT COUNT(*) FROM `users_profiles` WHERE `username` = '".$login."' AND `password` = '".md5($password)."'"), 0);
+            if($search_user == 0)
+            {
+                echo 'Login or password are incorrect';
+                exit();
+            }
+            else
+            {
+                $time = 60*60*24;
+                setcookie('username', $login, time()+$time, '/');
+                setcookie('password', md5($password), time()+$time, '/');
+                echo 'Seccess';
+                exit();
+            }
+        }
+    }
+    public function modify_user($login, $password, $email)
+    {
+        if(isset($login) && isset($password))
+        {
+            $login = $mysqli->real_escape_string(htmlspecialchars($_POST['login']));
+            $password =$mysqli->real_escape_string(htmlspecialchars($_POST['password']));
+            $email = $mysqli->real_escape_string(htmlspecialchars($_POST['email']));
+            $search_user = mysqli_result($mysqli->real_query("SELECT COUNT(*) FROM `user` WHERE `user_name` = '".$login."' AND `user_password` = '".md5($password)."'"), 0);
+            $data = $mysqli->real_query('SELECT * FROM `user` WHERE user_name = "'.$login.'"');
+            if (md5($password)!=$data['password']) $mysqli->real_query('UPDATE `user` SET user_password="'.md5($password).'"WHERE user_name = "'.$login.'"');
+            if (md5($password)!=$data['password']) $mysqli->real_query('UPDATE `user` SET user_email="'.$email.'"WHERE user_name = "'.$login.'"');
+        }
+    }
+    public function delete_user($login, $password)
+    {
+        if(isset($login) && isset($password))
+        {
+            $login = $mysqli->real_escape_string(htmlspecialchars($_POST['login']));
+            $password =$mysqli->real_escape_string(htmlspecialchars($_POST['password']));
+
+        }
+    }
 }

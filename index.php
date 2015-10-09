@@ -1,4 +1,6 @@
 <?php
-ini_set('display_errors', 1);
-require_once 'boot.php';
-?>
+    require 'core/model.php';
+    require 'core/controller.php';
+    require 'core/view.php';
+    require 'boot.php';
+    $app = new boot();

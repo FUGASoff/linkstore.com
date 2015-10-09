@@ -8,8 +8,8 @@
  */
 class model
 {
-    public function get_data()
-    {
-
+    public function __construct() {
+        // $this->database = new Database();
     }
+
 }

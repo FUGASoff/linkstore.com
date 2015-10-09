@@ -6,16 +6,10 @@
  * Time: 12:50
  */
 class controller {
-
-    public $model;
-    public $view;
-
     function __construct()
     {
-        $this->view = new view();
-    }
-
-    function action_index()
-    {
+        echo "This is controller";
+        echo '<br>';
+        $this->view = new View();
     }
 }

@@ -5,17 +5,11 @@
  * Date: 08.10.15
  * Time: 15:32
  */
-class controller_register_user extends controller
+class registration extends controller
 {
-   /* function __construct()
+    public function __construct()
     {
-        /*$this->model = new model_user();
-        $this->view = new View();
+        parent::__construct();
+        echo "Мы в контроллере register";
     }
-
-    function action_index()
-    {
-        $data = $this->model->get_data();
-        $this->view->generate('register_view.php', 'template_view.php', $data);*/
-
 }

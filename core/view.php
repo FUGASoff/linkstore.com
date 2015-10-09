@@ -8,8 +8,13 @@
  */
 class View
 {
-    function generate($content_view, $template_view, $data = null)
+    public function __construct()
     {
-        include 'application/views/'.$template_view;
+        echo 'this is view';
+        echo '<br>';
+    }
+    public function render($name)
+    {
+        require 'views/' . $name . '.php';
     }
 }

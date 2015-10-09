@@ -1,12 +1,31 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andrey
- * Date: 08.10.15
- * Time: 12:05
- */
-require_once 'core/model.php';
-require_once 'core/view.php';
-require_once 'core/controller.php';
-require_once 'core/route.php';
-Route::start();
+class Boot
+{
+    public function __construct()
+    {
+        $url = isset($_GET['url']) ? $_GET['url'] : null;
+        if(empty($url[0])) {
+            require 'controller/index.php';
+            $controller = new Index();
+            return false;
+        }
+        $url = rtrim($url, '/');
+        $url = explode('/', $url);
+        $file = 'controller/' . $url[0] . '.php';
+        if (file_exists($file)) {
+            require $file;
+        } else {
+            require 'controller/error.php';
+            $controller = new Error();
+            return false;
+        }
+        $controller = new $url[0];
+        if (isset($url[2])) {
+            $controller->$url[1]($url[2]);
+        } else {
+            if (isset($url[1])) {
+                $controller->$url[1]();
+            }
+        }
+    }
+}
