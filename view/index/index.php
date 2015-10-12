@@ -1,5 +1,7 @@
-<?php require 'views/header.php'; ?>
+<?php require '../header.php'; ?>
     <hr>
-<?php echo $this->msg; ?>
+<?php //echo $this->msg;
+    echo 'HIHIHI view';
+?>
 
-<?php require 'views/footer.php'; ?>
+<?php require '../footer.php'; ?>

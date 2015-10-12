@@ -7,7 +7,15 @@
  */
 class model_link extends model
 {
-    public function get_data()
+    public function add_link()
+    {
+
+    }
+    public function edit_link()
+    {
+
+    }
+    public function delete_link()
     {
 
     }

@@ -5,10 +5,26 @@
  * Date: 09.10.15
  * Time: 15:49
  */
-$mysqli = new mysqli("linkstore.com", "root", "2486", "linkstore");
+class Database extends mysqli
+{
+    private $hostname;
+    private $username;
+    private $password;
+    private $database;
+    public function __construct()
+    {
+        // Initialize object with database constants
+        $this->hostname = 'localhost';
+        $this->username = 'root';
+        $this->password = 2486;
+        $this->database = 'inkstore';
 
-/* проверка соединения */
-if (mysqli_connect_errno()) {
-    printf("Не удалось подключиться: %s\n", mysqli_connect_error());
-    exit();
+        // Open database connection
+        parent::__construct(
+            $this->hostname,
+            $this->username,
+            $this->password,
+            $this->database
+        );
+    }
 }

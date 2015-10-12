@@ -9,4 +9,4 @@ require '../../view/header.php';?>
 <hr>
 <?php echo $this->msg; ?>
 
-<?php require 'view/footer.php'; ?>
+<?php require '../footer.php'; ?>

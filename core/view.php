@@ -10,11 +10,12 @@ class View
 {
     public function __construct()
     {
-        echo 'this is view';
+        echo 'this is core/view!!!';
         echo '<br>';
     }
     public function render($name)
     {
-        require 'views/' . $name . '.php';
+        $file='view/' . $name . '.php';
+        require $file;
     }
 }
