@@ -12,24 +12,24 @@ class model_user extends model
         $database = new Database();
         if((!empty($login)) && (!empty($email)) && (!empty($password)))
         {
-            if (($result=$database->query('SELECT COUNT(*) FROM `user` WHERE `username` = '.$login.'',MYSQLI_USE_RESULT))==0)
+            $result = $database->prepare('SELECT COUNT(*) FROM `user` WHERE `username` = :username');
+            $result->execute(array(':username' => $login));
+            if ($result==0)
             {
-                $res = $database->query('INSERT INTO `user` (user_name, user_email, user_password) VALUES ('.$login.','.$email.','.md5($password).')');
-                var_dump($res);
+                $res = $database->prepare('INSERT INTO `user` (user_name, user_email, user_password) VALUES ('.$login.','.$email.','.md5($password).')');
+                $res->execute();
                 exit;
-
             }
-
-
         }
-        $database->close();
+        $database = NULL;
     }
     public function login_user($login, $password)
     {
         $database = new Database();
         if(isset($login) && isset($password))
         {
-            $search_user = mysqli_result($database->query("SELECT COUNT(*) FROM `users_profiles` WHERE `username` = '".$login."' AND `password` = '".md5($password)."'"), 0);
+            $search_user = $database->prepare("SELECT COUNT(*) FROM `user` WHERE `user_name` = '".$login."' AND `user_password` = '".md5($password)."'");
+            $search_user->execute();
             if($search_user == 0)
             {
                 echo 'Login or password are incorrect';
@@ -44,39 +44,38 @@ class model_user extends model
                 exit();
             }
         }
-        $database->close();
+        $database = NULL;
     }
     public function modify_user($login, $password, $email)
     {
         $database = new Database();
         if(isset($login) && isset($password))
         {
-            $search_user = mysqli_result($database->query("SELECT COUNT(*) FROM `user` WHERE `user_name` = '".$login."' AND `user_password` = '".md5($password)."'"), 0);
+            $search_user = $database->prepare("SELECT COUNT(*) FROM `user` WHERE `user_name` = '".$login."' AND `user_password` = '".md5($password)."'");
+            $search_user->execute();
             if ($search_user!=0) {
-                $data = $database->real_query('SELECT * FROM `user` WHERE user_name = "' . $login . '"');
-                if (md5($password) != $data['password']) $database->real_query('UPDATE `user` SET user_password="' . md5($password) . '"WHERE user_name = "' . $login . '"');
-                if (md5($password) != $data['password']) $database->real_query('UPDATE `user` SET user_email="' . $email . '"WHERE user_name = "' . $login . '"');
+                $data = $database->prepare('SELECT * FROM `user` WHERE user_name = "' . $login . '"');
+                $search_user->execute();
+                if (md5($password) != $data['password']) $database->query('UPDATE `user` SET user_password="' . md5($password) . '"WHERE user_name = "' . $login . '"');
+                if (md5($password) != $data['password']) $database->query('UPDATE `user` SET user_email="' . $email . '"WHERE user_name = "' . $login . '"');
             }
         }
-        $database->close();
+        $database = NULL;
     }
-    public function delete_user($login, $password)
+    /*public function delete_user($login, $password)
     {
         $database = new Database();
         if(isset($login) && isset($password))
         {
-            $login = $database->real_escape_string(htmlspecialchars($_POST['login']));
-            $password =$database->real_escape_string(htmlspecialchars($_POST['password']));
             //НЕДОПИСАНО!!!!
-
         }
-        $database->close();
-    }
+        $database = NULL;
+    }*/
     public function field_test($field)
     {
         $database = new Database();
         //$field=$database->real_escape_string($field);
-        $database->close();
+        $database = NULL;
         return $field;
     }
 }

@@ -5,26 +5,16 @@
  * Date: 09.10.15
  * Time: 15:49
  */
-class Database extends mysqli
+class Database extends PDO
 {
-    private $hostname;
-    private $username;
-    private $password;
-    private $database;
-    public function __construct()
-    {
-        // Initialize object with database constants
-        $this->hostname = 'localhost';
-        $this->username = 'root';
-        $this->password = 2486;
-        $this->database = 'inkstore';
+    public function __construct(){
+        $this->engine = 'mysql';
+        $this->host = 'localhost';
+        $this->database = 'linkstore';
+        $this->user = 'root';
+        $this->pass = 2486;
 
-        // Open database connection
-        parent::__construct(
-            $this->hostname,
-            $this->username,
-            $this->password,
-            $this->database
-        );
+        $db = new PDO('mysql:host=localhost;dbname=test', $this->user, $this->pass );
+        return $db;
     }
 }
