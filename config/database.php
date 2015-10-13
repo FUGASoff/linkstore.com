@@ -5,16 +5,9 @@
  * Date: 09.10.15
  * Time: 15:49
  */
-class Database extends PDO
-{
-    public function __construct(){
-        $this->engine = 'mysql';
-        $this->host = 'localhost';
-        $this->database = 'linkstore';
-        $this->user = 'root';
-        $this->pass = 2486;
-
-        $db = new PDO('mysql:host=localhost;dbname=test', $this->user, $this->pass );
-        return $db;
-    }
-}
+$config=array(
+    'dsn' => 'mysql:dbname=linkstore;host=localhost',
+    'user' => 'root',
+    'pass' => '2486',
+);
+$CONFIG_STRING = $config['dsn'].",".$config['user'].",".$config['pass'];

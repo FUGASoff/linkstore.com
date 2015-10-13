@@ -2,26 +2,23 @@
 /**
  * Created by PhpStorm.
  * User: andrey
- * Date: 12.10.15
- * Time: 11:26
+ * Date: 13.10.15
+ * Time: 14:43
  */
-class register extends controller
-{
+class login extends controller {
 
     public function __construct()
     {
         parent::__construct();
-        $this->view->render('register');
+        $this->view->render('login');
     }
-
     public function user_login()
     {
-        if (!empty($_POST['login']) AND !empty($_POST['password']) AND !empty($_POST['email'])) {
+        if (!empty($_POST['login']) AND !empty($_POST['password'])) {
             $model = new model_user();
             $login = $model->field_test($_POST['login']);
             $password = $model->field_test($_POST['password']);
-            $email = $model->field_test($_POST['email']);
-            $model->register_user($login, $email, $password);
+            $model->login_user($login, $password);
         }
     }
 }

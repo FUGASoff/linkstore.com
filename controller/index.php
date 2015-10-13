@@ -10,9 +10,7 @@ class Index extends controller {
     public function __construct()
     {
         parent::__construct();
-        echo "Inside INDEX controller!!";
-        $this->view->render('register');
-        //$this->view->render('index/index');
+        $this->view->render('index');
 
     }
 }

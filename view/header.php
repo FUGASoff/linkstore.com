@@ -11,6 +11,6 @@
     <a href="../index">Index</a>
     <a href="../help">Help</a>
     <a href="../login">Login</a>
-    <a href="../register">Login</a>
+    <a href="../register">Register</a>
 </div>
 <div id="content"></div>

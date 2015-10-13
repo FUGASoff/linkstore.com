@@ -10,8 +10,7 @@ class View
 {
     public function __construct()
     {
-        echo 'this is core/view!!!';
-        echo '<br>';
+
     }
     public function render($name)
     {

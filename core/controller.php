@@ -8,8 +8,6 @@
 class controller {
     function __construct()
     {
-        echo "This is core/controller";
-        echo '<br>';
         $this->view = new View();
     }
 }
