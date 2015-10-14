@@ -21,4 +21,11 @@ class login extends controller {
             $model->login_user($login, $password);
         }
     }
+    public function exit_user()
+    {
+        session_start();
+        setcookie('username', '', time()-1, '/');
+        setcookie('password', '', time()-1, '/');
+        session_destroy();
+    }
 }

@@ -14,7 +14,7 @@ class register extends controller
         $this->view->render('register');
     }
 
-    public function user_login()
+    public function user_register()
     {
         if (!empty($_POST['login']) AND !empty($_POST['password']) AND !empty($_POST['email'])) {
             $model = new model_user();

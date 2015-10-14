@@ -12,5 +12,7 @@
     <a href="../help">Help</a>
     <a href="../login">Login</a>
     <a href="../register">Register</a>
+    <a href="../login/exit_user">Exit</a>
 </div>
 <div id="content"></div>
+<hr>

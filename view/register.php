@@ -7,7 +7,7 @@
  */
 require 'header.php';
 echo'<h1>Registration</h1>
-<form action="register" method="post">
+<form action="/register/user_register/" method="post">
   <label>Login</label><input type="text" name="login"><br>
   <label>E-mail</label><input type="text" name="email"><br>
   <label>Password</label><input type="text" name="password"><br>
