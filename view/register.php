@@ -7,10 +7,10 @@
  */
 require 'header.php';
 echo'<h1>Registration</h1>
-<form action="/register/user_register/" method="post">
+<form action="/user/signup/" method="post">
   <label>Login</label><input type="text" name="login"><br>
   <label>E-mail</label><input type="text" name="email"><br>
   <label>Password</label><input type="text" name="password"><br>
-  <label></label><input type="submit">
+  <input type="submit" value="Register me">
 </form>';
 require 'footer.php';

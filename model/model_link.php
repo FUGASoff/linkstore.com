@@ -7,18 +7,17 @@
  */
 class model_link extends model
 {
-    public function add_link($link,$description, $name, $type,$user)
+    public function add_link($link,$description, $name, $type, $user)
     {
         global $config;
         $database = new PDO($config['dsn'],$config['user'],$config['pass']);
-        if (!empty($link) AND !empty($discription))
+        echo'lol1';
+        if (!empty($link) AND !empty($description))
         {
-            $res = $database->exec('INSERT INTO `link` (link_address, link_description, link_name, type) VALUES ("'.$link.'","'.$description.'","'.$name.'","'.$type.'")')
+            $res = $database->exec('INSERT INTO `link` (link_address, link_description, link_name, type, user_Id)
+                                    VALUES ("'.$link.'","'.$description.'","'.$name.'","'.$type.'",(
+                                    SELECT `user_Id` FROM `user` WHERE `user_name` = "'.$user.'"))')
             or die(print_r($database->errorInfo(), true));
-            $res = $database->query("SELECT `user_Id` FROM `user` WHERE `user_name` = '.$user.'");
-            $res->setFetchMode(PDO::FETCH_ASSOC);
-            $userid = $res->fetch();
-            $database->exec('INSERT INTO `store`(user_id,link_id) VALUES('.$userid.',(SELECT LAST_INSERT_ID(user_Id) FROM user))');
         }
         $database = NULL;
     }
@@ -35,5 +34,26 @@ class model_link extends model
         $database = new PDO($config['dsn'],$config['user'],$config['pass']);
 
         $database = NULL;
+    }
+
+    public function show_link($type, $user)
+    {
+        global $config;
+        $database = new PDO($config['dsn'],$config['user'],$config['pass']);
+        if ($type==0)
+        {
+            $res = $database->query('SELECT * FROM `link` WHERE `type` = 0');
+            $res->setFetchMode(PDO::FETCH_ASSOC);
+            $result=$res->fetchAll();
+        }
+        else
+        {
+            $res = $database->query('SELECT * FROM `link` WHERE `type` = 1 AND `user_Id` = (
+                                    SELECT `user_Id` FROM `user` WHERE `user_name` = "'.$user.'")');
+            $res->setFetchMode(PDO::FETCH_ASSOC);
+            $result=$res->fetchAll();
+        }
+        $database = NULL;
+        return $result;
     }
 }

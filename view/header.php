@@ -9,10 +9,9 @@
 <div id="header">
     <br>
     <a href="../index">Index</a>
-    <a href="../help">Help</a>
-    <a href="../login">Login</a>
-    <a href="../register">Register</a>
-    <a href="../login/exit_user">Exit</a>
+    <a href="../user/login">Login</a>
+    <a href="../user/signup">Register</a>
+    <a href="../user/logout">Exit</a>
 </div>
 <div id="content"></div>
 <hr>

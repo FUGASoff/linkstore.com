@@ -23,7 +23,7 @@ class model_user extends model
             {
                 $res = $database->exec('INSERT INTO `user` (user_name, user_email, user_password) VALUES ("'.$login.'","'.$email.'","'.md5($password).'")')
                 or die(print_r($database->errorInfo(), true));
-                //exit;
+                header("Location: http://linkstore.com/");
             }
         }
         $database = NULL;
@@ -48,6 +48,7 @@ class model_user extends model
                 setcookie('username', $login, time()+$time, '/');
                 setcookie('password', md5($password), time()+$time, '/');
                 echo 'Seccess';
+                header("Location: http://linkstore.com/");
                 exit();
             }
         }
