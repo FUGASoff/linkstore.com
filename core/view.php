@@ -8,13 +8,16 @@
  */
 class View
 {
+
     public function __construct()
     {
 
     }
-    public function render($name)
+    public function render($name, $data = NULL)
     {
         $file='view/' . $name . '.php';
+
         require $file;
+        return $this->$data;
     }
 }

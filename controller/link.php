@@ -24,15 +24,15 @@ class link extends controller
     public function show_all()
     {
         $model = new model_link();
-        $res=$model->show_link(0,$_COOKIE['username']);
-        print_r($res);
-        $this->view->render('show_all');
+        $link_result=$model->show_link(0,$_COOKIE['username']);
+        $this->view->required_data = $link_result;
+        $this->view->render('show_all',$link_result);
     }
     public function show_my()
     {
         $model = new model_link();
-        $res=$model->show_link(1,$_COOKIE['username']);
-        var_dump($res);
-        $this->view->render('show_my');
+        $link_result=$model->show_link(1,$_COOKIE['username']);
+        $this->view->required_data = $link_result;
+        $this->view->render('show_my',$link_result);
     }
 }
