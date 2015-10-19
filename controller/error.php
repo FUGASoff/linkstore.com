@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andrey
- * Date: 09.10.15
- * Time: 11:43
- */
+
 class error extends controller
 {
     public function __construct()

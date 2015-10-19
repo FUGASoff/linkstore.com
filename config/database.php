@@ -10,4 +10,3 @@ $config=array(
     'user' => 'root',
     'pass' => '2486',
 );
-$CONFIG_STRING = $config['dsn'].",".$config['user'].",".$config['pass'];

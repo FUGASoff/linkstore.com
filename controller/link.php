@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andrey
- * Date: 14.10.15
- * Time: 14:46
- */
+
 class link extends controller
 {
     public function add()

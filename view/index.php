@@ -1,6 +1,6 @@
 <?php require 'header.php'; ?>
 <?php
-if(!empty($_COOKIE['username']) AND !empty($_COOKIE['password'])){
+if(isset($_SESSION['uid'])){
     echo '
     <form action="/index" method="post"><input type="submit" name="add_link" value="Add new link" /></form>
     <form action="/link/show_all" method="post"><input type="submit" name="showall" value="Show all links" /></form>

@@ -1,16 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andrey
- * Date: 15.10.15
- * Time: 11:11
- */
+
 class user extends controller {
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
     public function login()
     {
         if (!empty($_POST['login']) AND !empty($_POST['password'])) {
@@ -18,17 +9,15 @@ class user extends controller {
             $login = $model->field_test($_POST['login']);
             $password = $model->field_test($_POST['password']);
             $model->login_user($login, $password);
-            header("Refresh:5; url=", true, 303);
+            header("Refresh:2; http://linkstore.com/");
         }
         else {$this->view->render('login');}
     }
     public function logout()
     {
-        session_start();
-        setcookie('username', '', time()-1, '/');
-        setcookie('password', '', time()-1, '/');
-        session_destroy();
-        header("Refresh:5; url=http://linkstore.com/", true, 303);
+        $model = new model_user();
+        $model->logout_user();
+        header("Refresh:2; http://linkstore.com/");
     }
     public function signup()
     {
@@ -40,7 +29,7 @@ class user extends controller {
             $email = $model->field_test($_POST['email']);
             $msg=$model->register_user($login, $email, $password);
             echo $msg;
-            header("Refresh:5; http://linkstore.com/");
+            header("Refresh:2; http://linkstore.com/");
         }
         else{$this->view->render('register');}
     }

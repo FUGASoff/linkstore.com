@@ -6,4 +6,5 @@
     require 'model/model_link.php';
     require 'boot.php';
     require 'config/database.php';
+    session_start();
     $app = new boot();

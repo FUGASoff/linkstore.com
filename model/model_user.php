@@ -25,14 +25,19 @@ class model_user extends model
                 $row = $result->fetch();
                 if ($row['count']==0)
                 {
-                    $res = $database->exec('INSERT INTO `user` (user_name, user_email, user_password,activation)
-                                            VALUES ("'.$login.'","'.$email.'","'.md5($password).'","'.$activation.'")')
+                    $res = $database->exec('INSERT INTO `user` (user_name, user_email, user_password)
+                                            VALUES ("'.$login.'","'.$email.'","'.md5($password).'")')
+                    or die(print_r($database->errorInfo(), true));
+                    $res = $database->exec('INSERT INTO `activation` (user_Id, `hash`) VALUES (
+                                    (SELECT `user_Id` FROM `user` WHERE `user_name` = "'.$login.'"),"'.$activation.'")')
                     or die(print_r($database->errorInfo(), true));
                     $to=$email;
                     $subject="Подтверждение электронной почты";
-                    $body='Здравствуйте! <br/> <br/> Мы должны убедиться в том, что вы человек. Пожалуйста, подтвердите адрес вашей электронной почты, и можете начать использовать ваш аккаунт на сайте. <br/> <br/> <a href="http://linkstore.com/user/'.$activation.'">http://linkstore.com/user/'.$activation.'</a>';
-                    $this->Send_Mail($to,$subject,$body);
-                    $msg= "Seccess.";
+                    $body='Здравствуйте! Пожалуйста, подтвердите адрес вашей электронной почты. http://linkstore.com/user/activation?code='.$activation.'</a>';
+                    //$this->Send_Mail($to,$subject,$body);
+                    $st=mail($to,$subject,$body);
+                    if ($st) $msg= "Seccess.";
+                    else $msg= "Fail sendig emali.";
                 }
                 else{$msg= 'user already exist';}
             }
@@ -48,25 +53,32 @@ class model_user extends model
         $database = new PDO($config['dsn'],$config['user'],$config['pass']);
         if(isset($login) && isset($password))
         {
-            $search_user = $database->query("SELECT COUNT(*) as count FROM `user` WHERE `user_name` = '".$login."' AND `user_password` = '".md5($password)."'");
+            $search_user = $database->query("SELECT * FROM `user` WHERE `user_name` = '".$login."' AND `user_password` = '".md5($password)."'");
             $search_user->setFetchMode(PDO::FETCH_ASSOC);
             $row = $search_user->fetch();
-            if($row['count'] == 0)
+            var_dump($row);
+            echo $row['user_Id'];
+            if($row['user_Id'] == 0)
             {
                 echo 'Login or password are incorrect';
                 exit();
             }
             else
             {
-                $time = 60*60*24;
-                setcookie('username', $login, time()+$time, '/');
-                setcookie('password', md5($password), time()+$time, '/');
+                session_start();
+                $_SESSION['uid'] = $row['user_Id'];
                 echo 'Seccess';
-                header("Refresh:5; Location: http://linkstore.com/");
+                header("Refresh:2; http://linkstore.com/");
                 exit();
             }
         }
         $database = NULL;
+    }
+    public function logout_user()
+    {
+        session_start();
+        $_SESSION['uid']=NULL;
+        session_destroy();
     }
     public function modify_user($login, $password, $email)
     {
@@ -103,27 +115,6 @@ class model_user extends model
     {
 
     }
-
-    public function Send_Mail($to,$subject,$body)
-    {
-        require '../smtp/class.phpmailer.php';
-        $from       = "onefugasoff@gmail.com";
-        $mail       = new PHPMailer();
-        $mail->IsSMTP(true);            // используем протокол SMTP
-        $mail->IsHTML(true);
-        $mail->SMTPAuth   = true;                  // разрешить SMTP аутентификацию
-        $mail->Host       = "tls://smtp.gmail.com"; // SMTP хост
-        $mail->Port       =  587;                    // устанавливаем SMTP порт
-        $mail->Username   = "onefugasoff";  //имя пользователя SMTP
-        $mail->Password   = "dr_drol1730s";  // SMTP пароль
-        $mail->SetFrom($from, 'From Name');
-        $mail->AddReplyTo($from,'From Name');
-        $mail->Subject    = $subject;
-        $mail->MsgHTML($body);
-        $address = $to;
-        $mail->AddAddress($address, $to);
-        $mail->Send();
-    }
     public function activation($code)
     {
         global $config;
@@ -131,21 +122,18 @@ class model_user extends model
         $msg='';
         if(!empty($code) && isset($code))
         {
-            $search_user = $database->query("SELECT COUNT(*) as count FROM `user` WHERE `activation` = '".$code."'");
+            $search_user = $database->query("SELECT COUNT(*) as count FROM `activation` WHERE `hash` = '".$code."'");
             $search_user->setFetchMode(PDO::FETCH_ASSOC);
             $row = $search_user->fetch();
-            if($row['count'] == 0)
+            if($row['count'] != 0)
             {
-                $search_user2 = $database->query("SELECT COUNT(*) as count FROM `user`
-                                                  WHERE `activation` = '".$code."' AND `user_status`='0'");
-                $search_user2->setFetchMode(PDO::FETCH_ASSOC);
-                $row2 = $search_user2->fetch();
-                if($row['count'] == 1)
-                {
-                    $res = $database->exec("UPDATE `user` SET `user_status`='1' WHERE activation='$code'")
-                    or die(print_r($database->errorInfo(), true));
-                }
-                else{$msg="Activated";}
+                $res = $database->exec("UPDATE `user` SET `user_status`='1' WHERE user_Id=(
+                                      SELECT user_Id FROM `activation` WHERE `hash` = '".$code."')")
+                or die(print_r($database->errorInfo(), true));
+                $res = $database->exec("DELETE FROM `activation` WHERE `hash` = '".$code."'")
+                or die(print_r($database->errorInfo(), true));
+                $msg="Activated";
+
             }
             else{$msg ="You account already activated, you should not do this again.";}
         }
