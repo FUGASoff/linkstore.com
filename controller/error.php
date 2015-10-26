@@ -5,8 +5,11 @@ class error extends controller
     public function __construct()
     {
         parent::__construct();
-        $this->view->msg = 'Страницы не существует!';
-        $this->view->render('error');
+        $view_set=array(
+            'body_name'=>'error'
+        );
+        $this->view->view_set=$view_set;
+        $this->view->render('main_view');
 
     }
 }

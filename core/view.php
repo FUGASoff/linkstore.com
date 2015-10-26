@@ -13,11 +13,10 @@ class View
     {
 
     }
-    public function render($name, $data = NULL)
+    public function render($name, $VIEW_SET = NULL)
     {
         $file='view/' . $name . '.php';
 
         require $file;
-        return $this->$data;
     }
 }

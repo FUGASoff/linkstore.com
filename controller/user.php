@@ -9,11 +9,22 @@ class user extends controller {
             $login = $model->field_test($_POST['login']);
             $password = $model->field_test($_POST['password']);
             $msg=$model->login_user($login, $password);
-            $this->view->msg=$msg;
-            $this->view->render('message',$msg);
-            header("Refresh:5; http://linkstore.com/");
+            $view_set=array(
+                'body_name'=>'login',
+                'msg_code'=>$msg['code'],
+                'msg'=>$msg['msg']
+            );
+            $this->view->view_set=$view_set;
+            $this->view->render('main_view');
+            //header("Refresh:5; http://linkstore.com/");
         }
-        else {$this->view->render('login');}
+        else {
+            $view_set=array(
+                'body_name'=>'login',
+            );
+            $this->view->view_set=$view_set;
+            $this->view->render('main_view');
+        }
     }
     public function logout()
     {
@@ -30,11 +41,24 @@ class user extends controller {
             $password = $model->field_test($_POST['password']);
             $email = $model->field_test($_POST['email']);
             $msg=$model->register_user($login, $email, $password);
-            $this->view->msg=$msg;
-            $this->view->render('message',$msg);
+
+            $view_set=array(
+                'body_name'=>'register',
+                'msg_code'=>$msg['code'],
+                'msg'=>$msg['msg']
+            );
+            $this->view->view_set=$view_set;
+            $this->view->render('main_view');
             header("Refresh:5; http://linkstore.com/");
         }
-        else{$this->view->render('register');}
+        else
+        {
+            $view_set=array(
+                'body_name'=>'register'
+            );
+            $this->view->view_set=$view_set;
+            $this->view->render('main_view');    
+        }
     }
 
     public function activation()

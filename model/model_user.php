@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andrey
- * Date: 08.10.15
- * Time: 12:17
- */
-
 
 class model_user extends model
 {
@@ -36,14 +29,37 @@ class model_user extends model
                     $body='Здравствуйте! Пожалуйста, подтвердите адрес вашей электронной почты. http://linkstore.com/user/activation?code='.$activation.'</a>';
                     //$this->Send_Mail($to,$subject,$body);
                     $st=mail($to,$subject,$body);
-                    if ($st) $msg= "Seccess.";
-                    else $msg= "Fail sendig emali.";
+                    if ($st)
+                        {
+                            $msg = array(
+                                'code' => 1,
+                                'msg' => 'Seccess.');
+                        }
+                    else {
+                        $msg=array(
+                            'code'=>3,
+                            'msg'=>'Fail sendig emali.');
+                    }
                 }
-                else{$msg= 'user already exist';}
+                else {
+                    $msg = array(
+                        'code' => 3,
+                        'msg' => 'user already exist');
+                }
             }
-            else{$msg= 'email fail';}
+            else
+            {
+                $msg=array(
+                    'code'=>3,
+                    'msg'=>'email fail');
+            }
         }
-        else{$msg= 'some fields are empty';}
+        else
+        {
+            $msg=array(
+                'code'=>3,
+                'msg'=>'some fields are empty');
+        }
         $database = NULL;
         return $msg;
     }
@@ -59,13 +75,18 @@ class model_user extends model
             $row = $search_user->fetch();
             if($row['user_Id'] == 0)
             {
-                $msg='Login or password are incorrect';
-
+                $msg=array(
+                    'code'=>3,
+                    'msg'=>'Login or password are incorrect'
+                );
             }
             else
             {
                 $_SESSION['uid'] = $row['user_Id'];
-                $msg= 'Seccess';
+                $msg=array(
+                    'code'=>1,
+                    'msg'=>'Seccess'
+                );
 
             }
         }

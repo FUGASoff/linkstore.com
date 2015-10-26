@@ -33,8 +33,8 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Username<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/user/logout">My Links</a></li>
-                            <li><a href="/user/logout">Settings</a></li>
+                            <li><a href="/link/show_my">My Links</a></li>
+                            <li><a href="/user/modyf">Settings</a></li>
                             <li class="divider"></li>
                             <li><a href="/user/logout">Log Out</a></li>
                         </ul>

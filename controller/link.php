@@ -20,14 +20,22 @@ class link extends controller
     {
         $model = new model_link();
         $link_result=$model->show_link(0,$_COOKIE['username']);
+        $view_set=array(
+            'body_name'=>'show_all'
+        );
         $this->view->required_data = $link_result;
-        $this->view->render('show_all',$link_result);
+        $this->view->view_set=$view_set;
+        $this->view->render('main_view');
     }
     public function show_my()
     {
         $model = new model_link();
         $link_result=$model->show_link(1,$_COOKIE['username']);
+        $view_set=array(
+            'body_name'=>'show_my'
+        );
         $this->view->required_data = $link_result;
-        $this->view->render('show_my',$link_result);
+        $this->view->view_set=$view_set;
+        $this->view->render('main_view');
     }
 }

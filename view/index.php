@@ -1,4 +1,4 @@
-<?php require 'header.php'; ?>
+
 <?php
 if(isset($_SESSION['uid'])){
     echo '
@@ -9,8 +9,7 @@ if(isset($_SESSION['uid'])){
 }
 else {
     echo '
-    <form action="user/login" method="post"><input type="submit" name="login" value="Sign In" /></form>
-    <form action="user/signup" method="post"><input type="submit" name="signup" value="Sign Up" /></form>
+    <form action="/user/login" method="post"><input type="submit" name="login" value="Sign In" /></form>
+    <form action="/user/signup" method="post"><input type="submit" name="signup" value="Sign Up" /></form>
     ';
 }
-require 'footer.php'; ?>
