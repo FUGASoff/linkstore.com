@@ -1,6 +1,16 @@
 <?php
+<<<<<<< HEAD
 
 
+=======
+/**
+ * Created by PhpStorm.
+ * User: andrey
+ * Date: 15.10.15
+ * Time: 16:22
+ */
+require 'header.php';
+>>>>>>> f1e5d19b93c13a54aca5b9e9dcb38724149ba621
 echo'<h1>My links</h1>';
 echo'<table class="table">
     <tr><th>Title</th><th>Link</th><th>Descripton</th></tr>';
@@ -10,3 +20,7 @@ echo'<table class="table">
     }
     echo'</table>';
 $this->required_data;
+<<<<<<< HEAD
+=======
+require 'footer.php';
+>>>>>>> f1e5d19b93c13a54aca5b9e9dcb38724149ba621

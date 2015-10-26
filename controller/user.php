@@ -8,6 +8,7 @@ class user extends controller {
             $model = new model_user();
             $login = $model->field_test($_POST['login']);
             $password = $model->field_test($_POST['password']);
+<<<<<<< HEAD
             $msg=$model->login_user($login, $password);
             $view_set=array(
                 'body_name'=>'login',
@@ -25,6 +26,12 @@ class user extends controller {
             $this->view->view_set=$view_set;
             $this->view->render('main_view');
         }
+=======
+            $model->login_user($login, $password);
+            header("Refresh:2; http://linkstore.com/");
+        }
+        else {$this->view->render('login');}
+>>>>>>> f1e5d19b93c13a54aca5b9e9dcb38724149ba621
     }
     public function logout()
     {
@@ -41,6 +48,7 @@ class user extends controller {
             $password = $model->field_test($_POST['password']);
             $email = $model->field_test($_POST['email']);
             $msg=$model->register_user($login, $email, $password);
+<<<<<<< HEAD
 
             $view_set=array(
                 'body_name'=>'register',
@@ -59,6 +67,12 @@ class user extends controller {
             $this->view->view_set=$view_set;
             $this->view->render('main_view');    
         }
+=======
+            echo $msg;
+            header("Refresh:2; http://linkstore.com/");
+        }
+        else{$this->view->render('register');}
+>>>>>>> f1e5d19b93c13a54aca5b9e9dcb38724149ba621
     }
 
     public function activation()

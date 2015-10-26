@@ -7,6 +7,7 @@ class Index extends controller {
         parent::__construct();
         if ($_POST['register'])
         {
+<<<<<<< HEAD
             $render_file='register';
         }
         elseif ($_POST['login'])
@@ -28,4 +29,21 @@ class Index extends controller {
         $this->view->render('main_view');
     }
 
+=======
+            $this->view->render('register');
+        }
+        elseif ($_POST['login'])
+        {
+            $this->view->render('login');
+        }
+        elseif ($_POST['add_link'])
+        {
+            $this->view->render('add_link');
+        }
+        else
+        {
+            $this->view->render('index');
+        }
+    }
+>>>>>>> f1e5d19b93c13a54aca5b9e9dcb38724149ba621
 }

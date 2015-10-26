@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 
 echo'
 <div class="input-group">
@@ -23,3 +24,20 @@ echo'
 	}
     </script>
 </div>';
+=======
+/**
+ * Created by PhpStorm.
+ * User: andrey
+ * Date: 12.10.15
+ * Time: 12:23
+ */
+require 'header.php';
+echo'<h1>Registration</h1>
+<form action="/user/signup/" method="post">
+  <label>Login</label><input type="text" name="login"><br>
+  <label>E-mail</label><input type="text" name="email"><br>
+  <label>Password</label><input type="text" name="password"><br>
+  <input type="submit" value="Register me">
+</form>';
+require 'footer.php';
+>>>>>>> f1e5d19b93c13a54aca5b9e9dcb38724149ba621

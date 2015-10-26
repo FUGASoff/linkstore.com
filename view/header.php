@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+<<<<<<< HEAD
     <title>Linkstore</title>
     <script src="../bootstrap/jquery-2.1.4.js"></script>
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
@@ -51,4 +52,20 @@
     </nav>
 <div id="content"></div>
 
+=======
+    <title>Test</title>
+    <link rel="stylesheet" href="default.css">
+    <link rel="stylesheet" href="../bootstrap/bootstrap.min.css">
+
+</head>
+<body>
+<div id="header">
+    <br>
+    <a href="/index">Index</a>
+    <a href="/user/login">Login</a>
+    <a href="/user/signup">Register</a>
+    <a href="/user/logout">Exit</a>
+</div>
+<div id="content"></div>
+>>>>>>> f1e5d19b93c13a54aca5b9e9dcb38724149ba621
 <hr>

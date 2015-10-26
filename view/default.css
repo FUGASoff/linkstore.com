@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* Template-specific stuff
  *
  * Customizations just for the template; these are not necessary for anything
@@ -117,4 +118,23 @@ body {
 .navbar .navbar-nav .open .dropdown-menu > .disabled > a:focus {
     color: #999 !important;
     background-color: transparent !important;
+=======
+body {
+    background: silver;
+}
+
+#header {
+    padding: 20px;
+    background: gold;
+}
+
+#content {
+    background: #fff;
+    padding: 20px;
+}
+
+#footer {
+    background: green;
+    padding: 20px;
+>>>>>>> f1e5d19b93c13a54aca5b9e9dcb38724149ba621
 }

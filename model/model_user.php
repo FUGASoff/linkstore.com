@@ -1,4 +1,14 @@
 <?php
+<<<<<<< HEAD
+=======
+/**
+ * Created by PhpStorm.
+ * User: andrey
+ * Date: 08.10.15
+ * Time: 12:17
+ */
+
+>>>>>>> f1e5d19b93c13a54aca5b9e9dcb38724149ba621
 
 class model_user extends model
 {
@@ -29,6 +39,7 @@ class model_user extends model
                     $body='Здравствуйте! Пожалуйста, подтвердите адрес вашей электронной почты. http://linkstore.com/user/activation?code='.$activation.'</a>';
                     //$this->Send_Mail($to,$subject,$body);
                     $st=mail($to,$subject,$body);
+<<<<<<< HEAD
                     if ($st)
                         {
                             $msg = array(
@@ -60,6 +71,16 @@ class model_user extends model
                 'code'=>3,
                 'msg'=>'some fields are empty');
         }
+=======
+                    if ($st) $msg= "Seccess.";
+                    else $msg= "Fail sendig emali.";
+                }
+                else{$msg= 'user already exist';}
+            }
+            else{$msg= 'email fail';}
+        }
+        else{$msg= 'some fields are empty';}
+>>>>>>> f1e5d19b93c13a54aca5b9e9dcb38724149ba621
         $database = NULL;
         return $msg;
     }
@@ -67,12 +88,16 @@ class model_user extends model
     {
         global $config;
         $database = new PDO($config['dsn'],$config['user'],$config['pass']);
+<<<<<<< HEAD
         $msg='=)';
+=======
+>>>>>>> f1e5d19b93c13a54aca5b9e9dcb38724149ba621
         if(isset($login) && isset($password))
         {
             $search_user = $database->query("SELECT * FROM `user` WHERE `user_name` = '".$login."' AND `user_password` = '".md5($password)."'");
             $search_user->setFetchMode(PDO::FETCH_ASSOC);
             $row = $search_user->fetch();
+<<<<<<< HEAD
             if($row['user_Id'] == 0)
             {
                 $msg=array(
@@ -92,6 +117,25 @@ class model_user extends model
         }
         $database = NULL;
         return $msg;
+=======
+            var_dump($row);
+            echo $row['user_Id'];
+            if($row['user_Id'] == 0)
+            {
+                echo 'Login or password are incorrect';
+                exit();
+            }
+            else
+            {
+                session_start();
+                $_SESSION['uid'] = $row['user_Id'];
+                echo 'Seccess';
+                header("Refresh:2; http://linkstore.com/");
+                exit();
+            }
+        }
+        $database = NULL;
+>>>>>>> f1e5d19b93c13a54aca5b9e9dcb38724149ba621
     }
     public function logout_user()
     {
