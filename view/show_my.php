@@ -8,5 +8,8 @@ echo'<table class="table">
     foreach ($link_ar as $value){
     echo'<tr><th>'.$value['link_name'].'</th><th>'.$value['link_address'].'</th><th>'.$value['link_description'].'</th></tr>';
     }
-    echo'</table>';
-$this->required_data;
+echo'</table>
+ <ul class="pager">
+  <li class="previous"><a href="#">Previous</a></li>
+  <li class="next"><a href="#">Next</a></li>
+</ul>';

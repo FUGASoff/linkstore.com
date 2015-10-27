@@ -3,8 +3,8 @@
 echo'
 <div class="input-group">
 <h2>Add new link</h2>
-  <form action="/link/add/" method="post">
-    <input type="hidden" name="user" value="'.$_COOKIE['username'].'">
+  <form action="/link/add" method="post">
+    <input type="hidden" name="user" value="'.$_SESSION['uid'].'">
     <label>Link</label><input required type="text" name="link" class="form-control" placeholder="www.exemple.com"><br>
     <label>Description</label><input required type="text" name="description" class="form-control" placeholder="Adout link"><br>
     <label>Title</label><input required type="text" name="name" class="form-control" placeholder="Link name"><br>

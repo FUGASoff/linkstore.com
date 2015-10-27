@@ -4,7 +4,9 @@ if (isset($_SESSION['uid'])) {
   echo '<div class="alert alert-info">You already loged in <a href="/index">Back to main page</a></div>';
   header("Refresh:3; http://linkstore.com/");
 }
-else {echo '
+else
+{
+  echo '
 <div class="input-group">
   <h1>Login</h1>
     <form action="/user/login" method="post">
@@ -12,4 +14,5 @@ else {echo '
       <label>Password</label><input required type="password" name="password" class="form-control" placeholder="Password"><br>
       <br><input type="submit" class="btn btn-success" value="Log In">
     </form>
-</div>';}
+</div>';
+}

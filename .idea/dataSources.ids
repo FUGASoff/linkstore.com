@@ -611,6 +611,7 @@
       <column name="user_password" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
       <column name="role_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" def="Mw=="/>
       <column name="user_status" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="uid" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="user_Id"/>
       <foreign-key name="user_ibfk_1" columns="role_id" ref-table="role" ref-schema="" ref-catalog="linkstore" ref-columns="role_id" update-rule="0" delete-rule="3" deferrability="2"/>
       <exported-key name="link_ibfk_1" table="link" schema="" catalog="linkstore" columns="user_Id"/>

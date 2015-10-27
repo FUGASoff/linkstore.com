@@ -27,7 +27,6 @@ class model_user extends model
                     $to=$email;
                     $subject="Подтверждение электронной почты";
                     $body='Здравствуйте! Пожалуйста, подтвердите адрес вашей электронной почты. http://linkstore.com/user/activation?code='.$activation.'</a>';
-                    //$this->Send_Mail($to,$subject,$body);
                     $st=mail($to,$subject,$body);
                     if ($st)
                         {
@@ -82,11 +81,13 @@ class model_user extends model
             }
             else
             {
-                $_SESSION['uid'] = $row['user_Id'];
+                $_SESSION['user_Id'] = $row['user_Id'];
+                $_SESSION['uid']=md5($_SERVER['REMOTE_ADDR'].$_SESSION['user_Id'].time());
                 $msg=array(
                     'code'=>1,
                     'msg'=>'Seccess'
                 );
+                $database->query("UPDATE `user` SET `uid`='".md5($_SERVER['REMOTE_ADDR'].$_SESSION['user_Id'])."' WHERE `user_name` = '".$login."'");
 
             }
         }
@@ -95,7 +96,7 @@ class model_user extends model
     }
     public function logout_user()
     {
-        session_start();
+        $_SESSION['user_Id']=NULL;
         $_SESSION['uid']=NULL;
         session_destroy();
     }
