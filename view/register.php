@@ -9,7 +9,7 @@ echo'
     <label>Login</label><input required type="text" name="login" id="login" class="form-control" placeholder="Username"><br>
     <label>E-mail</label><input required type="email" name="email" class="form-control" placeholder="E-mail"><br>
     <label>Password</label><input required type="password" name="password" class="form-control" placeholder="password" id="password1"><br>
-    <label>Repeat Password</label><input required type="password" name="password" class="form-control" placeholder="password" id="password2"><br>
+    <label>Confirm Password</label><input required type="password" name="password" class="form-control" placeholder="password" id="password2"><br>
     <div id="err_pas2" class="error"></div>
     <input type="submit" class="btn btn-success" value="Sign up">
   </form>

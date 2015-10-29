@@ -5,15 +5,15 @@ class Index extends controller {
     public function __construct()
     {
         parent::__construct();
-        if ($_POST['register'])
+        if (isset($_POST['register']))
         {
             $render_file='register';
         }
-        elseif ($_POST['login'])
+        elseif (isset($_POST['login']))
         {
             $render_file='login';
         }
-        elseif ($_POST['add_link'])
+        elseif (isset($_POST['add_link']))
         {
             $render_file='add_link';
         }

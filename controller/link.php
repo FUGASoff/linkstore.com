@@ -19,29 +19,28 @@ class link extends controller
     }
     public function show_all()
     {
-        $page=$_GET['page'];
-        $per_page=3;
-        $start=1;
-        if($page==0)
-        {
-            $stop=$start+$per_page;
+        if(isset($_GET['page'])) {
+            $page = $_GET['page'];
+            $per_page = 3;
+            $start = 1;
+            if ($page == 0) {
+                $stop = $start + $per_page;
+            } else {
+                $start = $start + ($page * $per_page);
+                $stop = $start + $per_page;
+            }
+            $model = new model_link();
+            $link_result = $model->show_link(0, 0, $start - 1, $stop - 1);
+            $numbers_of_pages = $model->show_link(0, 0);
+            $numbers_of_pages = count($numbers_of_pages) / $per_page;
+            $view_set = array(
+                'body_name' => 'show_all'
+            );
+            $this->view->number_of_pages = $numbers_of_pages;
+            $this->view->required_data = $link_result;
+            $this->view->view_set = $view_set;
+            $this->view->render('main_view');
         }
-        else
-        {
-            $start=$start + ($page*$per_page);
-            $stop=$start+$per_page;
-        }
-        $model = new model_link();
-        $link_result=$model->show_link(0,0,$start-1,$stop-1);
-        $numbers_of_pages= $model->show_link(0,0);
-        $numbers_of_pages=count($numbers_of_pages)/$per_page;
-        $view_set=array(
-            'body_name'=>'show_all'
-        );
-        $this->view->number_of_pages = $numbers_of_pages;
-        $this->view->required_data = $link_result;
-        $this->view->view_set=$view_set;
-        $this->view->render('main_view');
     }
     public function show_my()
     {

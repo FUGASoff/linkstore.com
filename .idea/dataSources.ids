@@ -574,6 +574,7 @@
       <column name="act_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="user_Id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
       <column name="hash" sqlType="VARCHAR" precision="33" scale="0" nullable="false" jdbcType="12"/>
+      <column name="time" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" version="true"/>
       <primary-key name="PRIMARY" columns="act_id"/>
     </table>
     <table name="link" schema="" catalog="linkstore" type="TABLE">
