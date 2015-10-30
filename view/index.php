@@ -1,15 +1,9 @@
 
 <?php
-if(isset($_SESSION['uid'])){
-    echo '
-    <form action="/index" method="post"><input type="submit" name="add_link" value="Add new link" /></form>
-    <form action="/link/show_all" method="post"><input type="submit" name="showall" value="Show all links" /></form>
-    <form action="/link/show_my" method="post"><input type="submit" name="showmy" value="Show my links" /></form>
-    ';
+echo'<table class="table table-striped">
+    <tr><th>Title</th><th>Link</th><th>Descripton</th></tr>';
+$link_ar = $this->required_data;
+foreach ($link_ar as $value){
+    echo'<tr><th>'.$value['link_name'].'</th><th>'.$value['link_address'].'</th><th>'.$value['link_description'].'</th></tr>';
 }
-else {
-    echo '
-    <form action="/user/login" method="post"><input type="submit" name="login" value="Sign In" /></form>
-    <form action="/user/signup" method="post"><input type="submit" name="signup" value="Sign Up" /></form>
-    ';
-}
+echo'</table>';

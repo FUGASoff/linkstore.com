@@ -28,10 +28,11 @@
             <?php
             if (isset($_SESSION['uid'])){
                 echo'
+                    <li><a href="/link/add">Add link</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Username<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/link/show_my">My Links</a></li>
+                            <li><a href="/link/show_my?page=0">My Links</a></li>
                             <li><a href="/user/modify">Settings</a></li>
                             <li class="divider"></li>
                             <li><a href="/user/logout">Log Out</a></li>

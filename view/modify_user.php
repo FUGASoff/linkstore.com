@@ -1,5 +1,4 @@
 <?php
-
 echo'
 <div class="form-group">
   <h1>Account Settings</h1>

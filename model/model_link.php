@@ -14,17 +14,46 @@ class model_link extends model
 
         if (!empty($link) AND !empty($description))
         {
-            $res = $database->exec('INSERT INTO `link` (link_address, link_description, link_name, type, user_Id)
-                                    VALUES ("'.$link.'","'.$description.'","'.$name.'","'.$type.'",(
-                                    SELECT `user_Id` FROM `user` WHERE `uid` = "'.$user.'"))')
-            or die(print_r($database->errorInfo(), true));
+            $res = $database->query("SELECT COUNT(*) as count FROM `link` WHERE `link_address`='.$link.'");
+            $row = $res->fetch();
+            if ($row['count']==0)
+            {
+                $res = $database->exec("INSERT INTO `link` (link_address, link_description, link_name, type, user_Id)
+                                    VALUES ('".$link."','".$description."','".$name."','".$type."',(
+                                    SELECT `user_Id` FROM `user` WHERE `uid` = '".$user."'))")
+                or die(print_r($database->errorInfo(), true));
+                $msg=array(
+                    'code'=>1,
+                    'msg'=>'You add this link'
+                );
+            }
+            else
+            {
+                $msg=array(
+                    'code'=>3,
+                    'msg'=>'You already add this link'
+                );
+            }
+        }
+        else {
+            $msg = array(
+                'code' => 3,
+                'msg' => 'How you did it?'
+            );
         }
         $database = NULL;
+        return $msg;
     }
-    public function edit_link($link,$description, $name, $type)
+    public function edit_link($name, $field, $link_id)
     {
         global $config;
+        echo $link_id;
+        var_dump(debug_backtrace());
         $database = new PDO($config['dsn'],$config['user'],$config['pass']);
+        $res = $database->query("SELECT * FROM `link` WHERE `link_id` = '".$link_id."'");
+        $res->setFetchMode(PDO::FETCH_ASSOC);
+        $result=$res->fetchAll();
+        var_dump($result);
 
         $database = NULL;
     }
@@ -42,7 +71,7 @@ class model_link extends model
         $database = new PDO($config['dsn'],$config['user'],$config['pass']);
         if ($type==0)
         {
-            $sql = "SELECT SQL_CALC_FOUND_ROWS * FROM `link` ORDER BY `link_id` DESC LIMIT " .$start. ",". $stop;
+            $sql = "SELECT SQL_CALC_FOUND_ROWS * FROM `link` ORDER BY `link_id` ASC LIMIT " .$start. ",". $stop;
             $res = $database->query($sql);
             $res->setFetchMode(PDO::FETCH_ASSOC);
             $result=$res->fetchAll();
@@ -50,10 +79,11 @@ class model_link extends model
         }
         else
         {
-            $res = $database->query('SELECT * FROM `link` WHERE `type` = 1 AND `user_Id` = (
-                                    SELECT `user_Id` FROM `user` WHERE `user_name` = "'.$user.'")');
+            $res = $database->query("SELECT SQL_CALC_FOUND_ROWS * FROM `link` WHERE `type` = 1 AND `user_Id` = (
+                                    SELECT `user_Id` FROM `user` WHERE `uid` = '".$user."')
+                                    ORDER BY `link_id` ASC LIMIT ".$start." ,". $stop);
             $res->setFetchMode(PDO::FETCH_ASSOC);
-            $result['']=$res->fetchAll();
+            $result=$res->fetchAll();
         }
         $database = NULL;
         return $result;

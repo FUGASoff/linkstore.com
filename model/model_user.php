@@ -81,7 +81,7 @@ class model_user extends model
                     'code'=>1,
                     'msg'=>'Seccess'
                 );
-                $database->query("UPDATE `user` SET `uid`='".md5($_SERVER['REMOTE_ADDR'].$_SESSION['user_Id'])."' WHERE `user_name` = '".$login."'");
+                $database->query("UPDATE `user` SET `uid`='".$_SESSION['uid']."' WHERE `user_name` = '".$login."'");
 
             }
             if ($row['user_status']==0)
@@ -247,7 +247,8 @@ class model_user extends model
     {
         global $config;
         $database = new PDO($config['dsn'],$config['user'],$config['pass']);
-        $deadline=time()-300;
+        global $activ_time;
+        $deadline=time()-$activ_time;
         $database->exec("DELETE FROM `activation` WHERE `time`<='".$deadline."'");
     }
 }

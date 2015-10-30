@@ -10,3 +10,6 @@ $config=array(
     'user' => 'root',
     'pass' => '2486',
 );
+$per_page=3;     //Number of links on 1 link page.
+
+$activ_time=300; //Time for account activation in seconds.

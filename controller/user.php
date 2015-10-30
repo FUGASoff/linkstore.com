@@ -159,6 +159,23 @@ class user extends controller {
 
     public function delete()
     {
+        if(isset($_POST['password']))
+        {
+            $model=new model_user();
+            $password= $model->field_test($_POST['password']);
+            $params=array(
+                'user_Id'=>$_SESSION['user_Id'],
+                'password'=>$password
+            );
+            $msg=$model->delete_user($params);
+            $view_set=array(
+                'body_name'=>'index',
+                'msg_code'=>$msg['code'],
+                'msg'=>$msg['msg']
+            );
+            $this->view->view_set=$view_set;
+            $this->view->render('main_view');
+        }
         $view_set=array(
             'body_name'=>'modify_user'
         );

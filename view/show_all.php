@@ -6,13 +6,18 @@ $link_ar = $this->required_data;
 $number_of_pages = $this->number_of_pages;
 $number_of_pages=round($number_of_pages);
 foreach ($link_ar as $value){
-        echo'<tr><th>'.$value['link_name'].'</th><th>'.$value['link_address'].'</th><th>'.$value['link_description'].'</th></tr>';
+    echo'<tr><th>'.$value['link_name'].'</th>
+             <th>'.$value['link_address'].'</th>
+             <th>'.$value['link_description'].'</th>
+             </tr>';
     }
 echo'</table>
+
+
  <ul class="pager">';
 if(isset($_GET['page'])) {
     if (($_GET['page'] - 1) >= 0) echo '<li class="previous"><a href="/link/show_all?page=' . ($_GET['page'] - 1) . '">Previous</a></li>';
     if (($_GET['page'] + 1) < $number_of_pages)
         echo '<li class="next"><a href="/link/show_all?page=' . ($_GET['page'] + 1) . '">Next</a></li>';
 }
-    echo'</ul>';
+echo'</ul>';
