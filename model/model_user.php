@@ -201,9 +201,22 @@ class model_user extends model
     {
         return $field;
     }
-    public function check_permission()
+    public function check_permission($uid,$code)
     {
-
+        global $config;
+        $database = new PDO($config['dsn'],$config['user'],$config['pass']);
+        $result=$database->query("SELECT `role_id` FROM `user` WHERE `uid`= '".$uid."'");
+        $result->setFetchMode(PDO::FETCH_ASSOC);
+        $row = $result->fetch();
+        $result2=$database->query("SELECT * FROM `permission` WHERE `role_id`='".$row['role_id']."' AND  `permission_code`='".$code."'");
+        $row2 = $result2->fetch();
+        //var_dump($row2);
+        if($row2){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
     public function activation($code)
     {
@@ -222,12 +235,19 @@ class model_user extends model
                 or die(print_r($database->errorInfo(), true));
                 $res = $database->exec("DELETE FROM `activation` WHERE `hash` = '".$code."'")
                 or die(print_r($database->errorInfo(), true));
-                $msg="Activated";
+                $msg= array(
+                    'code'=>1,
+                    'msg'=>'Activated'
+                );
 
             }
-            else{$msg ="You account already activated, you should not do this again.";}
+            else{$msg= array(
+                'code'=>2,
+                'msg' =>'You account already activated, you should not do this again.');}
         }
-        else{$msg ="Failed activation key.";}
+        else{$msg= array(
+            'code'=>2,
+            'msg' =>'Failed activation key.');}
         echo $msg;
         $database = NULL;
     }

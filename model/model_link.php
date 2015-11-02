@@ -47,21 +47,21 @@ class model_link extends model
     public function edit_link($name, $field, $link_id)
     {
         global $config;
-        echo $link_id;
-        var_dump(debug_backtrace());
         $database = new PDO($config['dsn'],$config['user'],$config['pass']);
-        $res = $database->query("SELECT * FROM `link` WHERE `link_id` = '".$link_id."'");
+        $sql="UPDATE link SET ".$name." = '".$field."' WHERE `link_id` = '".$link_id."'";
+        $res = $database->query($sql);
         $res->setFetchMode(PDO::FETCH_ASSOC);
         $result=$res->fetchAll();
         var_dump($result);
 
         $database = NULL;
     }
-    public function delete_link()
+    public function delete_link($id)
     {
         global $config;
         $database = new PDO($config['dsn'],$config['user'],$config['pass']);
-
+        $sql="DELETE FROM `link` WHERE `link_id`='".$id."'";
+        $database->query($sql);
         $database = NULL;
     }
 
@@ -69,19 +69,28 @@ class model_link extends model
     {
         global $config;
         $database = new PDO($config['dsn'],$config['user'],$config['pass']);
-        if ($type==0)
+        if($user != 1)
         {
-            $sql = "SELECT SQL_CALC_FOUND_ROWS * FROM `link` ORDER BY `link_id` ASC LIMIT " .$start. ",". $stop;
-            $res = $database->query($sql);
-            $res->setFetchMode(PDO::FETCH_ASSOC);
-            $result=$res->fetchAll();
+            if ($type==0)
+            {
+                $sql = "SELECT SQL_CALC_FOUND_ROWS * FROM `link` ORDER BY `link_id` ASC LIMIT " .$start. ",". $stop;
+                $res = $database->query($sql);
+                $res->setFetchMode(PDO::FETCH_ASSOC);
+                $result=$res->fetchAll();
 
+            }
+            else
+            {
+                $res = $database->query("SELECT SQL_CALC_FOUND_ROWS * FROM `link` WHERE `user_Id` = (
+                                        SELECT `user_Id` FROM `user` WHERE `uid` = '".$user."')
+                                        ORDER BY `link_id` ASC LIMIT ".$start." ,". $stop);
+                $res->setFetchMode(PDO::FETCH_ASSOC);
+                $result=$res->fetchAll();
+            }
         }
         else
         {
-            $res = $database->query("SELECT SQL_CALC_FOUND_ROWS * FROM `link` WHERE `type` = 1 AND `user_Id` = (
-                                    SELECT `user_Id` FROM `user` WHERE `uid` = '".$user."')
-                                    ORDER BY `link_id` ASC LIMIT ".$start." ,". $stop);
+            $res=$database->query("SELECT * FROM `link`");
             $res->setFetchMode(PDO::FETCH_ASSOC);
             $result=$res->fetchAll();
         }

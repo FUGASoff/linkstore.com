@@ -79,7 +79,7 @@ class user extends controller {
     {
         $model = new model_user();
         $model->logout_user();
-        header("Refresh:2; http://linkstore.com/");
+        header("Refresh:1; http://linkstore.com/");
     }
     public function signup()
     {
@@ -187,5 +187,32 @@ class user extends controller {
         $model = new model_user();
         $code=$_GET['code'];
         $model->activation($code);
+    }
+
+    public function admin()
+    {
+        //global $config;
+        //$database = new PDO($config['dsn'],$config['user'],$config['pass']);
+        $model = new model_user();
+
+        $role=$model->check_permission($_SESSION['uid'],'edit_all_users');
+        if ($role){
+            $view_set = array(
+                'body_name' => 'admin_page'
+            );
+            $this->view->view_set=$view_set;
+            $this->view->render('main_view');
+        }
+        else
+        {
+
+            $view_set=array(
+                'msg_code'=>3,
+                'msg'=>'Access Denied'
+            );
+            $this->view->view_set = $view_set;
+            $this->view->render('main_view');
+        }
+
     }
 }

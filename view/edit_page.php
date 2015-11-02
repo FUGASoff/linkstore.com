@@ -1,5 +1,5 @@
 <?php
-echo'<h1>My links</h1>';
+echo'<h2>All users</h2>';
 echo'<table class="table table-striped">
     <tr><th>Title</th><th>Link</th><th>Descripton</th><th></th><th></th></tr>';
 $link_ar = $this->required_data;
@@ -37,7 +37,7 @@ foreach ($link_ar as $value){
           </div>
 </div>';
 
-    }
+}
 echo'</table>
  <ul class="pager">';
 if(isset($_GET['page'])) {
