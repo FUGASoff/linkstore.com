@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Linkstore</title>
-    <script src="../bootstrap/jquery-2.1.4.js"></script>
-    <link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="../bootstrap/css/bootstrap-theme.css">
-    <script src="../bootstrap/js/bootstrap.js"></script>
+    <script src="/bootstrap/jquery-2.1.4.js"></script>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <script src="/bootstrap/js/bootstrap.js"></script>
 </head>
 <body>
 <div class="container">
@@ -22,7 +21,7 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="/link/show_all?page=0">All Links</a></li>
+                <li><a href="/link/show_all">All Links</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
             <?php
@@ -32,8 +31,8 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Username<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/link/show_my?page=0">My Links</a></li>
-                            <li><a href="/user/modify">Settings</a></li>
+                            <li><a href="/link/show_my">My Links</a></li>
+                            <li><a href="/user/modify/'.$_SESSION['user_Id'].'">Settings</a></li>
                             <li class="divider"></li>
                             <li><a href="/user/logout">Log Out</a></li>
                         </ul>

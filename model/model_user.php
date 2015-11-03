@@ -2,7 +2,6 @@
 
 class model_user extends model
 {
-
     public function register_user($login, $email, $password)
     {
         global $config;
@@ -179,9 +178,9 @@ class model_user extends model
         $result = $database->query('SELECT * FROM user WHERE `user_Id` = "'.$user_Id.'" AND `user_password`="'.md5($password).'"');
         $result->setFetchMode(PDO::FETCH_ASSOC);
         $row = $result->fetch();
-        if(isset($row['user_name']) && isset($password))
+        if((isset($row['user_name']) && isset($password)) OR ($params['isadmin']))
         {
-            $result = $database->query('DELETE FROM user WHERE `user_Id` = "'.$user_Id.'" AND `user_password`="'.md5($password).'"');
+            $result = $database->query('DELETE FROM user WHERE `user_Id` = "'.$user_Id.'"');
             $msg=array(
                 'code'=>2,
                 'msg'=>'Account has been deleted'
@@ -210,7 +209,6 @@ class model_user extends model
         $row = $result->fetch();
         $result2=$database->query("SELECT * FROM `permission` WHERE `role_id`='".$row['role_id']."' AND  `permission_code`='".$code."'");
         $row2 = $result2->fetch();
-        //var_dump($row2);
         if($row2){
             return true;
         }
@@ -222,7 +220,6 @@ class model_user extends model
     {
         global $config;
         $database = new PDO($config['dsn'],$config['user'],$config['pass']);
-        $msg='';
         if(!empty($code) && isset($code))
         {
             $search_user = $database->query("SELECT COUNT(*) as count FROM `activation` WHERE `hash` = '".$code."'");
@@ -270,5 +267,13 @@ class model_user extends model
         global $activ_time;
         $deadline=time()-$activ_time;
         $database->exec("DELETE FROM `activation` WHERE `time`<='".$deadline."'");
+    }
+    public function get_id($uid)
+    {
+        global $config;
+        $database = new PDO($config['dsn'],$config['user'],$config['pass']);
+        $result=$database->query('SELECT `user_Id` FROM `user` WHERE `uid`="'.$uid.'"');
+        $res=$result->fetch();
+        return $res['user_Id'];
     }
 }

@@ -3,9 +3,7 @@
 echo'
 <div class="input-group">
   <h1>Registration</h1>
-
   <form action="/user/signup" method="post" id="form" onsubmit="return checkform(this)">
-
     <label>Login</label><input required type="text" name="login" id="login" class="form-control" placeholder="Username"><br>
     <label>E-mail</label><input required type="email" name="email" class="form-control" placeholder="E-mail"><br>
     <label>Password</label><input required type="password" name="password" class="form-control" placeholder="password" id="password1"><br>

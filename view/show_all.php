@@ -15,9 +15,10 @@ echo'</table>
 
 
  <ul class="pager">';
-if(isset($_GET['page'])) {
-    if (($_GET['page'] - 1) >= 0) echo '<li class="previous"><a href="/link/show_all?page=' . ($_GET['page'] - 1) . '">Previous</a></li>';
-    if (($_GET['page'] + 1) < $number_of_pages)
-        echo '<li class="next"><a href="/link/show_all?page=' . ($_GET['page'] + 1) . '">Next</a></li>';
+if(isset($view_set['page'])) {
+    $page=$view_set['page'];
+    if (($page - 1) >= 0) echo '<li class="previous"><a href="/link/show_all?page=' . ($page - 1) . '">Previous</a></li>';
+    if (($page + 1) < $number_of_pages)
+        echo '<li class="next"><a href="/link/show_all?page=' . ($page + 1) . '">Next</a></li>';
 }
 echo'</ul>';

@@ -1,7 +1,6 @@
 <?php
 
 if (isset($_SESSION['uid'])) {
-  echo '<div class="alert alert-info">You already loged in <a href="/index">Back to main page</a></div>';
   header("Refresh:3; http://linkstore.com/");
 }
 else

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="vagrant" preserveTimestamps="false" autoUploadExternalChanges="true">
+  <component name="PublishConfigData" autoUpload="Always" serverName="vagrant" preserveTimestamps="false" uploadOnCheckin="4402afae-aff4-4b20-b137-7072c78495e9" autoUploadExternalChanges="true">
     <serverData>
       <paths name="vagrant">
         <serverdata>
@@ -10,6 +10,7 @@
         </serverdata>
       </paths>
     </serverData>
+    <option name="myUploadOnCheckinName" value="vagrant" />
     <option name="myAutoUpload" value="ALWAYS" />
   </component>
 </project>
