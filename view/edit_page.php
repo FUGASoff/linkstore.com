@@ -37,7 +37,7 @@ foreach ($link_ar as $value){
               </div>
             </div>
           </div>
-</div>';
+        </div>';
 
 }
 echo'</table>

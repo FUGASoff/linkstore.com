@@ -25,7 +25,7 @@ class model_user extends model
                         {
                             $msg = array(
                                 'code' => 1,
-                                'msg' => 'Seccess.');
+                                'msg' => 'Success.');
                         }
                     else {
                         $msg=array(
@@ -78,7 +78,7 @@ class model_user extends model
                 $_SESSION['uid']=md5($_SERVER['REMOTE_ADDR'].$_SESSION['user_Id'].time());
                 $msg=array(
                     'code'=>1,
-                    'msg'=>'Seccess'
+                    'msg'=>'Success'
                 );
                 $database->query("UPDATE `user` SET `uid`='".$_SESSION['uid']."' WHERE `user_name` = '".$login."'");
 
@@ -107,8 +107,12 @@ class model_user extends model
         $database = NULL;
         return $msg;
     }
-    public function logout_user()
+    public function logout_user($id)
     {
+        global $config;
+        $database = new PDO($config['dsn'],$config['user'],$config['pass']);
+        $res=$database->query("UPDATE `user` SET `uid`=0  WHERE `user_Id`='".$id."'")
+        or die(print_r($database->errorInfo(), true));
         $_SESSION['user_Id']=NULL;
         $_SESSION['uid']=NULL;
         session_destroy();
@@ -156,6 +160,29 @@ class model_user extends model
                 $msg=array(
                     'code'=>1,
                     'msg'=>'Email has been changed'
+                );
+            }
+            else
+            {
+                $msg=array(
+                    'code'=>3,
+                    'msg'=>'Incorrect data'
+                );
+            }
+        }
+        if(isset($params['role']))
+        {
+            $role=$params['role'];
+            $result = $database->query('SELECT COUNT(*) as count FROM user WHERE `user_Id` = "'.$user_Id.'"');
+            $result->setFetchMode(PDO::FETCH_ASSOC);
+            $row = $result->fetch();
+            if ($row['count']!=0)
+            {
+                $database->query('UPDATE user SET `role_id` = "'.$role.'" WHERE `user_Id` = "'.$user_Id.'"')
+                or die(print_r($database->errorInfo(), true));
+                $msg=array(
+                    'code'=>1,
+                    'msg'=>'Role has been changed'
                 );
             }
             else
@@ -275,5 +302,32 @@ class model_user extends model
         $result=$database->query('SELECT `user_Id` FROM `user` WHERE `uid`="'.$uid.'"');
         $res=$result->fetch();
         return $res['user_Id'];
+    }
+    public function userlist($type,$start=0, $stop=1000)
+    {
+        global $config;
+        $database = new PDO($config['dsn'],$config['user'],$config['pass']);
+        if ($type==1) {
+            $sql ="SELECT * FROM `user` ORDER BY `user_Id` ASC LIMIT " . $start . " ," . $stop;
+            $res = $database->query($sql);
+            $res->setFetchMode(PDO::FETCH_ASSOC);
+            $result = $res->fetchAll();
+        }
+        else{
+            $res = $database->query("SELECT * FROM `user` ");
+            $res->setFetchMode(PDO::FETCH_ASSOC);
+            $result = $res->fetchAll();
+        }
+        return $result;
+    }
+    public function is_adm($uid)
+    {
+        global $config;
+        $database = new PDO($config['dsn'],$config['user'],$config['pass']);
+        $res=$database->query('SELECT * FROM `user` WHERE `uid`="'.$uid.'"');
+        $res->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $res->fetch();
+        if ($result['role_id']==1){$isadm=true;}else{$isadm=false;}
+        return $isadm;
     }
 }

@@ -8,7 +8,9 @@ $number_of_pages=round($number_of_pages);
 foreach ($link_ar as $value){
     $la=$value['user_Id'];
     $ln=$value['user_email'];
-    if($value['role_id']==0) {$status='New';} else{$status='Activated';}
+    if($value['user_status']==0)
+    {$status='New';}
+    else{$status='Activated';}
     echo'<tr>
             <th>'.$value['user_name'].'</th>
             <th>'.$value['user_email'].'</th>
@@ -38,14 +40,13 @@ foreach ($link_ar as $value){
             </div>
           </div>
 </div>';
-
 }
 echo'</table>
  <ul class="pager">';
 if(isset($view_set['page'])) {
     $page=$view_set['page'];
-    if (($page - 1) >= 0) echo '<li class="previous"><a href="/user/show_all/' . ($page - 1) . '">Previous</a></li>';
-    if (($page + 1) < $number_of_pages)
-        echo '<li class="next"><a href="/user/show_all/' . ($page + 1) . '">Next</a></li>';
+    if (($page - 1) >= 0) echo '<li class="previous"><a href="/user/admin?page=' . ($page - 1) . '">Previous</a></li>';
+    if (($page + 1) <= $number_of_pages)
+        echo '<li class="next"><a href="/user/admin?page=' . ($page + 1) . '">Next</a></li>';
 }
 echo'</ul>';

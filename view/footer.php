@@ -1,7 +1,4 @@
-<div class="container"><hr>
+<hr>
 <div id="footer">
-    &copy; Footer
+    &copy; FUGAS 2015
 </div>
-</div>
-</body>
-</html>

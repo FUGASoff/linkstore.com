@@ -35,5 +35,4 @@ if (isset($view_set['linkid'])) {
     <label></label><input type="submit" class="btn btn-success" value="Edit">
   </form>
 </div>';
-
 }

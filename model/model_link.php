@@ -52,7 +52,6 @@ class model_link extends model
         $res = $database->query($sql);
         $res->setFetchMode(PDO::FETCH_ASSOC);
         $result=$res->fetchAll();
-        var_dump($result);
 
         $database = NULL;
     }

@@ -77,8 +77,7 @@ class user extends controller {
     public function logout()
     {
         $model = new model_user();
-        $model->logout_user();
-        header("Refresh:1; http://linkstore.com/");
+        $model->logout_user($_SESSION['user_Id']);
     }
     public function signup()
     {
@@ -120,6 +119,13 @@ class user extends controller {
                         'isadmin'=>true
                     );
                     $msg=$model->modify_user($user_parametrs);
+                    $view_set=array(
+                        'msg_code' => $msg['code'],
+                        'msg' => $msg['msg'],
+                        'body_name' => 'modify_user',
+                        'user_Id'=>$user_id,
+                        'isadmin'=>true
+                    );
                 }
                 elseif(isset($_POST['role'])){
                     $user_parametrs= array(
@@ -128,19 +134,21 @@ class user extends controller {
                         'isadmin'=>true
                     );
                     $msg=$model->modify_user($user_parametrs);
-                }
-                else{
-                    $msg=array(
-                        'code' => 3,
-                        'msg' => 'atata'
+                    $view_set=array(
+                        'msg_code' => $msg['code'],
+                        'msg' => $msg['msg'],
+                        'body_name' => 'modify_user',
+                        'user_Id'=>$user_id,
+                        'isadmin'=>true
                     );
                 }
-                $view_set = array(
-                    'body_name' => 'index',
-                    'msg_code' => $msg['code'],
-                    'msg' => $msg['msg'],
-                    'isadmin'=>true
-                );
+                else{
+                    $view_set=array(
+                        'body_name' => 'modify_user',
+                        'user_Id'=>$user_id,
+                        'isadmin'=>true
+                    );
+                }
             }
             else{
                 $view_set=array(
@@ -263,39 +271,53 @@ class user extends controller {
     public function admin()
     {
         $model = new model_user();
-        $role=$model->check_permission($_SESSION['uid'],'edit_all_users');
-        if (!$role){
-            if (!isset($_GET['page'])){$page=0;}else{$page=$_GET['page'];}
-            global $per_page;
-            $start = 1;
-            if ($page == 0) {
-                $stop = $start + $per_page;
-            } else {
-                $start = $start + ($page * $per_page);
-                $stop = $start + $per_page;
+        if(isset($_SESSION['uid'])) {
+            $role = $model->check_permission($_SESSION['uid'], 'edit_all_users');
+            if ($role) {
+                if (!isset($_GET['page'])) {
+                    $page = 0;
+                } else {
+                    $page = $_GET['page'];
+                }
+                global $per_page;
+                $start = 1;
+                if ($page == 0) {
+                    $stop = $start + $per_page;
+                } else {
+                    $start = $start + ($page * $per_page);
+                    $stop = $start + $per_page;
+                }
+                $model = new model_user();
+                $link_result = $model->userlist(1, $start - 1, $stop - 1);
+                $numbers_of_pages = $model->userlist(0);
+                $numbers_of_pages = count($numbers_of_pages) / $per_page;
+                $view_set = array(
+                    'page'=>$page,
+                    'body_name' => 'admin_page'
+                );
+                $this->view->required_data = $link_result;
+                $this->view->number_of_pages = $numbers_of_pages;
+                $this->view->view_set = $view_set;
+                $this->view->render('main_view');
             }
-            $model = new model_link();
-            $link_result = $model->show_link(1, $_SESSION['uid'], $start-1, $stop-1);
-            $numbers_of_pages = $model->show_link(1, $_SESSION['uid']);
-            $numbers_of_pages = count($numbers_of_pages) / $per_page;
-            $view_set = array(
-                'body_name' => 'admin_page'
-            );
-            $this->view->required_data = $link_result;
-            $this->view->number_of_pages = $numbers_of_pages;
-            $this->view->view_set=$view_set;
-            $this->view->render('main_view');
+            else
+            {
+                $view_set = array(
+                    'msg_code' => 3,
+                    'msg' => 'Access Denied'
+                );
+                $this->view->view_set = $view_set;
+                $this->view->render('main_view');
+            }
         }
         else
         {
-
-            $view_set=array(
-                'msg_code'=>3,
-                'msg'=>'Access Denied'
+            $view_set = array(
+                'msg_code' => 2,
+                'msg' => 'You should login'
             );
             $this->view->view_set = $view_set;
             $this->view->render('main_view');
         }
-
     }
 }

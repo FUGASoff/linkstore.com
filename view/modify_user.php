@@ -62,21 +62,19 @@ echo'
 </div>';}
 if($view_set['isadmin']){
   echo'
-    <div class="container">
     <h2>Change role</h2>
-    <label class="col-sm-2 control-label">Role</label>
-      <form action="/user/modify/'.$view_set['user_Id'].'" method="post" id="emailform" class="form-horizontal" >
+      <form action="/user/modify/'.$view_set['user_Id'].'" method="post" class="form-horizontal" >
         <div class="form-group">
-        <div class="col-sm-5">
-        <select class="form-control col-sm-1">
-          <option name="type" value="1">Admin</option>
-          <option name="type" value="2">Editor</option>
-          <option name="type" value="3" selected>User</option>
-        </select>
-        </div>
+          <label class="col-sm-2 control-label">Role</label>
+          <div class="col-sm-5">
+
+            <select name="role" class="form-control col-sm-1">
+              <option value="1">Admin</option>
+              <option value="2">Editor</option>
+              <option value="3" selected>User</option>
+            </select>
+          </div>
         </div>
         <input type="submit" class="btn btn-success" value="Change role">
-      </form>
-    </div>
-  ';
+      </form>';
 }

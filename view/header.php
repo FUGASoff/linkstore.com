@@ -1,13 +1,3 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Linkstore</title>
-    <script src="/bootstrap/jquery-2.1.4.js"></script>
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
-    <script src="/bootstrap/js/bootstrap.js"></script>
-</head>
-<body>
 <div class="container">
     <nav class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
@@ -25,16 +15,20 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
             <?php
+            global $ISADMIN;
+            if ($ISADMIN){echo'<li><a href="/user/admin">User list</a></li>';}
             if (isset($_SESSION['uid'])){
                 echo'
                     <li><a href="/link/add">Add link</a></li>
+
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Username<b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">User<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="/link/show_my">My Links</a></li>
                             <li><a href="/user/modify/'.$_SESSION['user_Id'].'">Settings</a></li>
                             <li class="divider"></li>
-                            <li><a href="/user/logout">Log Out</a></li>
+                            <li><a href="" class="logout2" id="logout2">Log Out</a></li>
+
                         </ul>
                     </li>';
             }
@@ -42,11 +36,15 @@
                 echo '
                     <li><a href="/user/login">Sign In</a></li>
                     <li><a href="/user/signup">Sign up</a></li>';
-             }
-            ?>
+             } ?>
+                <script type="text/javascript">
+                    $('.logout2').click(function(){
+                        $.get('/user/logout/',function(data){
+                            location.reload();
+                        });
+                    });
+                </script>
             </ul>
         </div>
     </nav>
-<div id="content"></div>
-
 <hr>
