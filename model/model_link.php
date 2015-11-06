@@ -48,11 +48,7 @@ class model_link extends model
     {
         global $config;
         $database = new PDO($config['dsn'],$config['user'],$config['pass']);
-        $sql="UPDATE link SET ".$name." = '".$field."' WHERE `link_id` = '".$link_id."'";
-        $res = $database->query($sql);
-        $res->setFetchMode(PDO::FETCH_ASSOC);
-        $result=$res->fetchAll();
-
+        $res = $database->query("UPDATE `link` SET ".$name." = '".$field."' WHERE `link_id` = '".$link_id."'");
         $database = NULL;
     }
     public function delete_link($id)
@@ -68,11 +64,11 @@ class model_link extends model
     {
         global $config;
         $database = new PDO($config['dsn'],$config['user'],$config['pass']);
-        if($user != 1)
+        if(($user != 1)AND ($user!=0))
         {
             if ($type==0)
             {
-                $sql = "SELECT SQL_CALC_FOUND_ROWS * FROM `link` ORDER BY `link_id` ASC LIMIT " .$start. ",". $stop;
+                $sql = "SELECT * FROM `link` WHERE `type`= 0 ORDER BY `link_id` ASC LIMIT " .$start. ",". $stop;
                 $res = $database->query($sql);
                 $res->setFetchMode(PDO::FETCH_ASSOC);
                 $result=$res->fetchAll();
@@ -80,16 +76,22 @@ class model_link extends model
             }
             else
             {
-                $res = $database->query("SELECT SQL_CALC_FOUND_ROWS * FROM `link` WHERE `user_Id` = (
+                $res = $database->query("SELECT * FROM `link` WHERE `user_Id` = (
                                         SELECT `user_Id` FROM `user` WHERE `uid` = '".$user."')
-                                        ORDER BY `link_id` ASC LIMIT ".$start." ,". $stop);
+                                        ORDER BY `link_id` DESC LIMIT ".$start." ,". $stop);
                 $res->setFetchMode(PDO::FETCH_ASSOC);
                 $result=$res->fetchAll();
             }
         }
+        elseif($user==1)
+        {
+            $res=$database->query("SELECT * FROM `link` WHERE `type`='".$type."'ORDER BY `link_id` DESC LIMIT ".$start." ,". $stop );
+            $res->setFetchMode(PDO::FETCH_ASSOC);
+            $result=$res->fetchAll();
+        }
         else
         {
-            $res=$database->query("SELECT * FROM `link`");
+            $res=$database->query("SELECT * FROM `link` ORDER BY `link_id` DESC LIMIT ".$start." ,". $stop);
             $res->setFetchMode(PDO::FETCH_ASSOC);
             $result=$res->fetchAll();
         }

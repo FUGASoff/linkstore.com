@@ -14,17 +14,14 @@ class user extends controller {
                 'msg_code'=>$msg['code'],
                 'msg'=>$msg['msg']
             );
-            $this->view->view_set=$view_set;
-            $this->view->render('main_view');
-            //header("Refresh:5; http://linkstore.com/");
         }
         else {
             $view_set=array(
                 'body_name'=>'login',
             );
-            $this->view->view_set=$view_set;
-            $this->view->render('main_view');
         }
+        $this->view->view_set=$view_set;
+        $this->view->render('main_view');
     }
     public function SendAgain ()
     {
@@ -62,17 +59,15 @@ class user extends controller {
                 'msg_code'=>$msg['code'],
                 'msg'=>$msg['msg']
             );
-            $this->view->view_set=$view_set;
-            $this->view->render('main_view');
         }
         else
         {
             $view_set=array(
                 'body_name'=>'send_again',
             );
-            $this->view->view_set=$view_set;
-            $this->view->render('main_view');
         }
+        $this->view->view_set=$view_set;
+        $this->view->render('main_view');
     }
     public function logout()
     {
@@ -88,23 +83,20 @@ class user extends controller {
             $password = $model->field_test($_POST['password']);
             $email = $model->field_test($_POST['email']);
             $msg=$model->register_user($login, $email, $password);
-
             $view_set=array(
                 'body_name'=>'register',
                 'msg_code'=>$msg['code'],
                 'msg'=>$msg['msg']
             );
-            $this->view->view_set=$view_set;
-            $this->view->render('main_view');
         }
         else
         {
             $view_set=array(
                 'body_name'=>'register'
             );
-            $this->view->view_set=$view_set;
-            $this->view->render('main_view');    
         }
+        $this->view->view_set=$view_set;
+        $this->view->render('main_view');
     }
     public function modify($user_id)
     {
@@ -157,8 +149,6 @@ class user extends controller {
                     'isadmin'=>true
                 );
             }
-            $this->view->view_set = $view_set;
-            $this->view->render('main_view');
         }
         else
             {
@@ -177,8 +167,6 @@ class user extends controller {
                     'msg'=>$msg['msg'],
                     'isadmin'=>false
                 );
-                $this->view->view_set=$view_set;
-                $this->view->render('main_view');
             }
             else if(isset($_POST['password']) AND isset($_POST['oldpass']))
             {
@@ -207,10 +195,10 @@ class user extends controller {
                     'body_name' => 'modify_user',
                     'isadmin'=>false
                 );
-                $this->view->view_set = $view_set;
-                $this->view->render('main_view');
             }
         }
+        $this->view->view_set=$view_set;
+        $this->view->render('main_view');
     }
 
     public function delete($user_id)
@@ -251,8 +239,6 @@ class user extends controller {
                     'msg_code' => $msg['code'],
                     'msg' => $msg['msg']
                 );
-                $this->view->view_set = $view_set;
-                $this->view->render('main_view');
             }
             $view_set = array(
                 'user_Id' => $user_id,

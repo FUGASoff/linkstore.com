@@ -9,7 +9,7 @@ echo'
     <label>Description</label><input required type="text" name="description" class="form-control" placeholder="Adout link"><br>
     <label>Title</label><input required type="text" name="name" class="form-control" placeholder="Link name"><br>
     <label>Type</label><br>
-      <input type="radio" name="type" value="0" > Public<br>
+      <input type="radio" name="type" value="0" checked> Public<br>
       <input type="radio" name="type" value="1"> Private <br>
     <label></label><input type="submit" class="btn btn-success" value="Add Link">
   </form>

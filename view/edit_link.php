@@ -26,12 +26,16 @@ if (isset($view_set['linkid'])) {
 <h2>Edit link</h2>
   <form action="/link/edit/' . $view_set['linkid'] . '" method="post">
     <input type="hidden" name="user" value="' . $_SESSION['uid'] . '">
-    <label>Link</label><input type="text" name="new_link" class="form-control" placeholder="'.$link_ar['link_address'].'"><br>
-    <label>Title</label><input type="text" name="new_name" class="form-control" placeholder="'.$link_ar['link_name'].'"><br>
-    <label>Description</label><input type="text" name="new_description" class="form-control" placeholder="'.$link_ar['link_description'].'"><br>
+    <label>Link</label><input type="text" name="new_link" class="form-control" value="'.$link_ar['link_address'].'"><br>
+    <label>Title</label><input type="text" name="new_name" class="form-control" value="'.$link_ar['link_name'].'"><br>
+    <label>Description</label><input type="text" name="new_description" class="form-control" value="'.$link_ar['link_description'].'"><br>
     <label>Type</label><br>
-      <input type="radio" name="new_type" value="0"> Public<br>
-      <input type="radio" name="new_type" value="1"> Private <br>
+      <input type="radio" name="new_type" value="0"';
+        if($link_ar['type']==0) echo 'checked';
+        echo '> Public<br>
+      <input type="radio" name="new_type" value="1"';
+        if($link_ar['type']==1) echo 'checked';
+        echo '> Private <br>
     <label></label><input type="submit" class="btn btn-success" value="Edit">
   </form>
 </div>';

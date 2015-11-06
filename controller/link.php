@@ -4,26 +4,30 @@ class link extends controller
 {
     public function add()
     {
-        $model = new model_link();
-        if (isset($_POST['link']) and isset($_POST['description']) and isset($_POST['name']) and isset($_POST['type']) and isset($_SESSION['uid']))
-        {
-            $msg=$model->add_link($_POST['link'], $_POST['description'], $_POST['name'], $_POST['type'], $_SESSION['uid']);
-            $view_set = array(
-                'body_name' => 'add_link',
-                'msg_code'=>$msg['code'],
-                'msg'=>$msg['msg']
-            );
-            $this->view->view_set = $view_set;
-            $this->view->render('main_view');
+        if (isset($_SESSION['uid'])) {
+            $model = new model_link();
+            if (isset($_POST['link']) and isset($_POST['description']) and isset($_POST['name']) and isset($_POST['type']) and isset($_SESSION['uid'])) {
+                $msg = $model->add_link($_POST['link'], $_POST['description'], $_POST['name'], $_POST['type'], $_SESSION['uid']);
+                $view_set = array(
+                    'body_name' => 'add_link',
+                    'msg_code' => $msg['code'],
+                    'msg' => $msg['msg']
+                );
+            } else {
+                $view_set = array(
+                    'body_name' => 'add_link'
+                );
+            }
         }
         else
         {
             $view_set = array(
-                'body_name' => 'add_link'
+                'msg_code' => 2,
+                'msg' => 'Access Denied. Please login'
             );
+        }
             $this->view->view_set = $view_set;
             $this->view->render('main_view');
-        }
     }
     public function edit($linkid)
     {
@@ -56,8 +60,8 @@ class link extends controller
                     $field = $_POST['new_name'];
                     $model->edit_link($name, $field, $linkid);
                 }
-                if (!empty($_POST['new_type']) AND isset($_POST['new_type'])) {
-                    $name = 'link_type';
+                if (isset($_POST['new_type'])) {
+                    $name = 'type';
                     $field = $_POST['new_type'];
                     $model->edit_link($name, $field, $linkid);
                 }
@@ -89,9 +93,23 @@ class link extends controller
     }
     public function delete($linkid)
     {
-        $model = new model_link();
-        $model->delete_link($linkid);
-        header("Refresh:0; http://linkstore.com/link/show_my?page=0");
+        if (isset($_SESSION['uid'])) {
+            $model = new model_link();
+            $model->delete_link($linkid);
+            $view_set = array(
+                'msg_code'=>1,
+                'msg'=>'Link has been deleted'
+            );
+        }
+        else
+        {
+            $view_set = array(
+                'msg_code'=>2,
+                'msg'=>'Access Denied. Please login'
+            );
+        }
+        $this->view->view_set = $view_set;
+        $this->view->render('main_view');
     }
     public function show_all()
     {
@@ -100,7 +118,7 @@ class link extends controller
         if(isset($_SESSION['uid'])){$uid=$_SESSION['uid'];} else {$uid=0;}
         if($us_model->check_permission($uid,'edit_all_links'))
         {
-            if (!isset($_GET['page'])){$page=0;}else{$page=$_GET['page'];}
+            if (!isset($_GET['page']) or ($_GET['page']<0)){$page=0;}else{$page=$_GET['page'];}
                 global $per_page;
                 $start = 1;
                 if ($page == 0) {
@@ -109,8 +127,8 @@ class link extends controller
                     $start = $start + ($page * $per_page);
                     $stop = $start + $per_page;
                 }
-                $link_result = $model->show_link(0, 1, $start - 1, $stop - 1);
-                $numbers_of_pages = $model->show_link(0, 1);
+                $link_result = $model->show_link(0, 0, $start - 1, $stop - 1);
+                $numbers_of_pages = $model->show_link(0, 0, 0, 1000);
                 $numbers_of_pages = count($numbers_of_pages) / $per_page;
                 $view_set = array(
                     'page'=>$page,
@@ -133,8 +151,8 @@ class link extends controller
                     $start = $start + ($page * $per_page);
                     $stop = $start + $per_page;
                 }
-                $link_result = $model->show_link(0, 0, $start - 1, $stop - 1);
-                $numbers_of_pages = $model->show_link(0, 0);
+                $link_result = $model->show_link(0, 1, $start - 1, $stop - 1);
+                $numbers_of_pages = $model->show_link(0, 1, 0, 1000);
                 $numbers_of_pages = count($numbers_of_pages) / $per_page;
                 $view_set = array(
                     'page'=>$page,
@@ -149,25 +167,38 @@ class link extends controller
     }
     public function show_my()
     {
-        if (!isset($_GET['page'])){$page=0;}else{$page=$_GET['page'];}
-        global $per_page;
-        $start = 1;
-        if ($page == 0) {
-            $stop = $start + $per_page;
-        } else {
-            $start = $start + ($page * $per_page);
-            $stop = $start + $per_page;
+        if(isset($_SESSION['uid'])) {
+            if (!isset($_GET['page']) or ($_GET['page']<0)) {
+                $page = 0;
+            } else {
+                $page = $_GET['page'];
+            }
+            global $per_page;
+            $start = 1;
+            if ($page == 0) {
+                $stop = $start + $per_page;
+            } else {
+                $start = $start + ($page * $per_page);//1 4  4 7  7 10
+                $stop = $start + $per_page;
+            }
+            $model = new model_link();
+            $link_result = $model->show_link(1, $_SESSION['uid'], $start -1, $stop - 1);
+            $numbers_of_pages = $model->show_link(1, $_SESSION['uid'], 0, 1000);
+            $numbers_of_pages = count($numbers_of_pages) / $per_page;
+            $view_set = array(
+                'page' => $page,
+                'body_name' => 'show_my'
+            );
+            $this->view->required_data = $link_result;
+            $this->view->number_of_pages = $numbers_of_pages;
         }
-        $model = new model_link();
-        $link_result = $model->show_link(1, $_SESSION['uid'], $start-1, $stop-1);
-        $numbers_of_pages = $model->show_link(1, $_SESSION['uid']);
-        $numbers_of_pages = count($numbers_of_pages) / $per_page;
-        $view_set = array(
-            'page'=>$page,
-            'body_name' => 'show_my'
-        );
-        $this->view->required_data = $link_result;
-        $this->view->number_of_pages = $numbers_of_pages;
+        else
+        {
+            $view_set = array(
+                'msg_code'=>2,
+                'msg'=>'Access Denied. Please login'
+            );
+        }
         $this->view->view_set = $view_set;
         $this->view->render('main_view');
     }

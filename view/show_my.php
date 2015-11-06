@@ -9,7 +9,7 @@ foreach ($link_ar as $value){
     $la=$value['link_id'];
     $ln=$value['link_address'];
     if($value['type']==0) {$type='Public';}
-    else{$type='private';}
+    else{$type='Private';}
     echo'<tr>
             <th>'.$value['link_name'].'</th>
             <th>'.$value['link_address'].'</th>

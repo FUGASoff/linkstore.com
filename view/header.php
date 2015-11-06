@@ -16,13 +16,14 @@
             <ul class="nav navbar-nav navbar-right">
             <?php
             global $ISADMIN;
+            global $username;
             if ($ISADMIN){echo'<li><a href="/user/admin">User list</a></li>';}
             if (isset($_SESSION['uid'])){
                 echo'
                     <li><a href="/link/add">Add link</a></li>
 
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">User<b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">'.$username.'<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="/link/show_my">My Links</a></li>
                             <li><a href="/user/modify/'.$_SESSION['user_Id'].'">Settings</a></li>

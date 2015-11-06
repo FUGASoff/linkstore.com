@@ -8,6 +8,7 @@
     session_start();
     if (isset($_SESSION['uid'])) {
         $model = new model_user();
+        $username=$model->get_name($_SESSION['uid']);
         $test=$model->is_adm($_SESSION['uid']);
         if($test)$ISADMIN=true;
             else $ISADMIN=false;

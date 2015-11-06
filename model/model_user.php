@@ -303,7 +303,7 @@ class model_user extends model
         $res=$result->fetch();
         return $res['user_Id'];
     }
-    public function userlist($type,$start=0, $stop=1000)
+    public function userlist($type,$start, $stop)
     {
         global $config;
         $database = new PDO($config['dsn'],$config['user'],$config['pass']);
@@ -329,5 +329,13 @@ class model_user extends model
         $result = $res->fetch();
         if ($result['role_id']==1){$isadm=true;}else{$isadm=false;}
         return $isadm;
+    }
+    public function get_name($uid)
+    {
+        global $config;
+        $database = new PDO($config['dsn'],$config['user'],$config['pass']);
+        $result=$database->query('SELECT `user_name` FROM `user` WHERE `uid`="'.$uid.'"');
+        $res=$result->fetch();
+        return $res['user_name'];
     }
 }
